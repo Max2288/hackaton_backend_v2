@@ -1,0 +1,30 @@
+version: "3.8"
+
+x-common-backend: &common-backend
+  build:
+    context: .
+    dockerfile: Dockerfile
+  image: stenagrafist_backend
+  networks:
+    - stenagrafist
+  extra_hosts:
+    - "host.docker.internal:host-gateway"
+
+services:
+  consumer:
+    <<: *common-backend
+    container_name: consumer
+    command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+    ports:
+      - 8012:8000
+    restart: unless-stopped
+    env_file:
+      - .env
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - ./:/app/
+
+networks:
+  stenagrafist:
+    external: True
