@@ -38,3 +38,5 @@ class Config:
     KAFKA_CONSUMER_GROUP = "kafka_consumer_group"
 
     BUCKET_NAME = 'stena'
+
+    SEARCH_ENGINE_HOST=os.environ["SEARCH_ENGINE_HOST"]

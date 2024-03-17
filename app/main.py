@@ -1,6 +1,3 @@
-from fastapi import FastAPI
-from loguru import logger
-
 from app.api import api
 from app.core.config import Config
 from app.version import VERSION
@@ -14,7 +11,7 @@ from loguru import logger
 
 from app.on_startup.redis import start_redis
 
-from app.api.minio import consumer, client
+from app.api.minio import consumer
 
 logger.add(
     "./logs/sirius.log",
@@ -39,7 +36,6 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
     logger.info("START APP")
     yield
     await consumer.stop()
-    await client.stop()
     logger.info("END APP")
 
 

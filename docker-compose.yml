@@ -24,6 +24,21 @@ services:
       - "host.docker.internal:host-gateway"
     volumes:
       - ./:/app/
+  elasticsearch:
+    container_name: elasticsearch
+    image: bitnami/elasticsearch:8.11.1
+    ports:
+      - '${ELASTIC_PORT}:9200'
+    environment:
+      - xpack.security.enabled=false
+      - network.host=127.0.0.1
+      - http.host=0.0.0.0
+    healthcheck:
+      test: curl -u elastic:elastic -s -f elasticsearch:9200/_cat/health >/dev/null || exit 1
+      interval: 1s
+      retries: 100
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
 networks:
   stenagrafist:
