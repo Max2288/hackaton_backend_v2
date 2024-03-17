@@ -7,7 +7,6 @@ from app.core.config import Config
 
 router = APIRouter(route_class=LogRoute)
 
-
 async def load_index(document: dict, order_id: int):
     try:
         client = OpenSearch(
@@ -29,6 +28,10 @@ async def load_index(document: dict, order_id: int):
     except Exception as e:
         logger.error(f"Произошла ошибка во создания заказа: {e}")
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Internal Server Error")
+
+@router.get("/load_index", status_code=status.HTTP_200_OK)
+async def load_eltc_index(document, order_id):
+    await load_index(document, order_id)
 
 
 @router.get("/read-from-index", status_code=status.HTTP_200_OK)

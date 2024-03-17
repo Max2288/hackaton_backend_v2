@@ -85,5 +85,5 @@ async def send_status_reuest(user_id, order_name):
         'order_id': order_name,
     }
 
-    response = requests.post('http://158.160.17.242:8011/stenagrafist/api/v1/minio/change', params=params,
+    response = requests.post('http://127.0.0.1:8011/stenagrafist/api/v1/minio/change', params=params,
                              headers=headers)
